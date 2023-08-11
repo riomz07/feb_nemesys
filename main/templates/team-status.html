@@ -1,0 +1,78 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+
+<body>
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+    <section class="section dashboard">
+      <div class="pagetitle">
+        <h1>Team Status</h1>
+      </div><!-- End Page Title -->
+      <div class="col-12">
+        <div class="card top-selling overflow-auto">
+          <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li class="dropdown-header text-start">
+                <h6>Filter</h6>
+              </li>
+
+              <li><a class="dropdown-item" href="/team-status/">All</a></li>
+              <li><a class="dropdown-item" href="/team-status/?filter_by=Ready">Available</a></li>
+              <li><a class="dropdown-item" href="/team-status/?filter_by=NotReady">Not Available</a></li>
+            </ul>
+          </div>
+          <div class="card-body pb-0">
+            <h5 class="card-title">Status <span>| Now</span></h5>
+
+            <table class="table table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col">Profile</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Desciption</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for staff in all_staff %}
+                <tr>
+                  <th scope="row">
+                    <div class="img-wrapper2">
+                      {% if staff.profile_picture %}
+                      <img src="{{staff.profile_picture.url}}" alt="Profile" class="img-fluid">
+                      {% else %}
+                      <img src="{% static 'assets/img/default_profile_pic.png' %}" alt="Profile" class="img-fluid">
+                      {% endif %}
+                    </div>
+                  </th>
+                  <td class="fw-bold ">{{staff.name}}</td>
+                  {% if staff.status == 'Available' %}
+                  <td class="ms-2"><i class="ri-checkbox-circle-fill" style="color: lawngreen; font-size: 25px;"></i>
+                  </td>
+                  <td class="fw-bold">Available</td>
+                  {% else %}
+                  <td><i class="ri-close-circle-line" style="color: rgb(252, 0, 0); font-size: 25px;"></i></td>
+                  <td class="fw-bold">On Mission : {{staff.status}}</td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main><!-- End #main -->
+
+
+
+  {% include 'pages/footer.html' %}

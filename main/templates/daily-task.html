@@ -1,0 +1,51 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+
+<head>
+  <script src="{% static 'assets/js/daily-task.js' %}"></script>
+</head>
+
+<body>
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Daily Task</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-0 pb-0">Main Task</h5>
+              <h6 class="card-subtitle mb-3">Finish main daily task</h6>
+              {% csrf_token %}
+              <!-- List group With Checkboxes and radios -->
+              {% for task in tasks %}
+              <ul class="list-group">
+                <li class="list-group-item" style="border: none;">
+                  <input class="form-check-input me-1 task-checkbox-default" type="checkbox" value="{{task.id}}"
+                    id="task-checkbox" aria-label="..." {% if task.status %} checked {% endif %}>
+                  {{task.task.title}}
+
+                  <h6 class="card-subtitle mt-2">{{task.task.desc}}</h6>
+                </li>
+              </ul>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+
+  {% include 'pages/footer.html' %}

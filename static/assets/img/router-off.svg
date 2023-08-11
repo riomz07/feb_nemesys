@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 1024 1024"
+   class="icon"
+   version="1.1"
+   fill="#000000"
+   id="svg11"
+   sodipodi:docname="router-off.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs15" />
+  <sodipodi:namedview
+     id="namedview13"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     showgrid="false"
+     inkscape:zoom="0.521875"
+     inkscape:cx="111.13772"
+     inkscape:cy="723.35329"
+     inkscape:window-width="1920"
+     inkscape:window-height="1047"
+     inkscape:window-x="-10"
+     inkscape:window-y="-10"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="SVGRepo_iconCarrier" />
+  <g
+     id="SVGRepo_bgCarrier"
+     stroke-width="0" />
+  <g
+     id="SVGRepo_tracerCarrier"
+     stroke-linecap="round"
+     stroke-linejoin="round" />
+  <g
+     id="SVGRepo_iconCarrier">
+    <path
+       d="m 115.01747,399.43831 v 190.73901 c 1.25217,78.2155 163.35944,153.17558 363.11377,153.17558 199.75433,0 361.77819,-74.96008 363.11377,-153.17558 V 399.43831 Z"
+       fill="#00aaff"
+       id="path4"
+       style="fill:#ff5555;fill-opacity:1;stroke-width:0.834742"
+       inkscape:export-filename="./wifi-off.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       d="m 841.24501,398.85393 c 0,82.97353 -162.60813,161.94034 -363.11377,161.94034 -200.50564,0 -363.11377,-78.96681 -363.11377,-161.94034 0,-82.97354 162.60813,-150.25399 363.11377,-150.25399 200.50564,0 363.11377,67.19693 363.11377,150.25399 z"
+       fill="#3ED6FF"
+       id="path6"
+       style="fill:#ff0000;stroke-width:0.834742" />
+    <path
+       d="m 446.49439,322.64179 h 24.12414 l 0.0794,52.75578 h 24.6249 l -0.58438,-52.75578 h 24.12403 l -36.4783,-62.68932 z m 49.16651,88.31597 h -24.95885 l 0.0794,61.68758 h -25.54313 l 38.56518,62.77272 37.98091,-62.77272 H 496.2412 Z m 101.42142,-30.30128 -1.16866,-25.04226 -60.18509,37.56344 63.77447,37.64696 -1.16866,-25.04226 h 105.34475 l -2.17028,-25.12588 z m -228.21916,0 H 264.52015 l -1.91986,25.12588 h 105.34476 l -0.918,25.04226 63.35723,-37.64696 -60.51904,-37.56344 z"
+       fill="#ffffff"
+       id="path8"
+       style="stroke-width:0.834742" />
+    <path
+       d="m -311.75139,597.8401 v 16.80919 c 0.11035,6.89287 14.39632,13.49885 32,13.49885 17.60368,0 31.8823,-6.60598 32,-13.49885 V 597.8401 Z"
+       fill="#00aaff"
+       id="path4530"
+       style="fill:#ff5555;fill-opacity:1;stroke-width:0.073563"
+       inkscape:export-filename="./wifi-off.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       d="m -247.75139,597.7886 c 0,7.31218 -14.33011,14.27126 -32,14.27126 -17.66989,0 -32,-6.95908 -32,-14.27126 0,-7.31218 14.33011,-13.24138 32,-13.24138 17.66989,0 32,5.92184 32,13.24138 z"
+       fill="#3ED6FF"
+       id="path4532"
+       style="fill:#ff0000;stroke-width:0.073563" />
+    <path
+       d="m -282.53944,591.07228 h 2.12598 l 0.007,4.64919 h 2.17011 l -0.0515,-4.64919 h 2.12597 l -3.21471,-5.5246 z m 4.33288,7.78299 h -2.19954 l 0.007,5.43632 h -2.25103 l 3.39862,5.53195 3.34713,-5.53195 h -2.25104 z m 8.93793,-2.67035 -0.10299,-2.20689 -5.30391,3.31034 5.62023,3.3177 -0.10299,-2.20689 h 9.28368 l -0.19126,-2.21426 z m -20.11219,0 h -9.1954 l -0.16919,2.21426 h 9.28368 l -0.0809,2.20689 5.58346,-3.3177 -5.33334,-3.31034 z"
+       fill="#ffffff"
+       id="path4534"
+       style="stroke-width:0.073563" />
+  </g>
+</svg>

@@ -1,0 +1,144 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+<head>
+  <script src="{% static 'assets/js/my-status.js' %}"></script>
+</head>
+
+<body>
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>My Status</h1>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+        <div class="col-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">My Status</h5>
+              {% if request.user.staff.status in mission_title %}
+              <p style=" font-weight: 600; ">On Mission : {{request.user.staff.status}}</p>
+              {% else %}
+              <p style=" font-weight: 600; ">{{request.user.staff.status}}</p>
+              {% endif %}
+
+              {% if request.user.staff.status in mission_title %}
+              <h5 class="card-title">My Mission</h5>
+              <div>
+                <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <label for="customRange2" class="form-label">Update Mission Progress</label>
+                  {{form_mission.progress}}
+                  <p> <i class="progress-value"></i></p>
+                  <div class="row mb-3">
+                    <label for="" class="col-sm-2 col-form-label">Notes</label>
+                    <div class="col-sm-10">
+                      {{form_mission.notes}}
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Report Picture</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="pt-2">
+                        {{form_mission.pic_report}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-sm-10">
+                      <button type="submit" class="btn btn-primary" id="submit-mission" data-bs-toggle="modal">Update
+                        Mission</button>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="finish-modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Finish Mission ?</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Really wanna finish mission "{{request.user.staff.status}}" ?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                          <button type="submit" class="btn btn-primary">Finish</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              {%else%}
+              <div></div>
+              {% endif %}
+              <h5 class="card-title " style="padding-bottom: 0;">Update Status</h5>
+
+              <p class=" mb-3 mt-0" style="font-size: 13px; font-style: italic;">terbuka hanya saat status available
+                atau tidak dalam misi,
+                difungsikan
+                untuk
+                membuat status custom
+              </p>
+              {% if request.user.staff.status in mission_title %}
+              <p style="color: red;">You are on mission, complete the mission first to customize status</p>
+              {% else %}
+              <!-- General Form Elements -->
+              <form method="POST">
+                {% csrf_token %}
+                <div class="row mb-3">
+                  <legend class="col-form-label col-sm-2 pt-0">Status</legend>
+                  <div class="col-sm-10">
+
+                    <div class="form-check">
+                      <input class="form-check-input checkbox-ready" type="checkbox" id="gridCheck1">
+                      <label class="form-check-label" for="gridCheck1">
+                        Available
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <input class="form-check-input checkbox-nready" type="checkbox" id="gridCheck2">
+                      <label class="form-check-label" for="gridCheck2">
+                        Not Available
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-2 col-form-label reason-label">Description</label>
+                    <div class="col-sm-10">
+                      {{form.status}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary ">Update
+                      Status</button>
+                  </div>
+                </div>
+
+              </form><!-- End General Form Elements -->
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+
+  {% include 'pages/footer.html' %}

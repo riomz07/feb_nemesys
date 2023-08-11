@@ -1,0 +1,88 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+<body>
+
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Services Monitoring</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-12">
+          <div class="card recent-sales overflow-auto">
+
+            <div class="card-body">
+              <h5 class="card-title">Live Status <span>| Every 5 Second</span></h5>
+
+              <table class="table table-borderless datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">Service</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div><!-- End Recent Sales -->
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+  <script>
+    $(function () {
+      function get_all_hosts() {
+
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'get service status' %}",
+          success: function (response) {
+            $('#tbody').empty()
+
+            for (let key in response.all_hosts) {
+              hosts = response.all_hosts
+              console.log(hosts[key].name)
+              $('#tbody').append(`
+                <tr>
+                  <td>
+                      ${hosts[key].name}
+                  </td>
+                  <td>
+                      <a href="https://${hosts[key].address}" target="_blank" class="text-primary">${hosts[key].address}</a>
+                  </td>
+                  <td >
+                      <span class="badge align-content-center ${hosts[key].badge}">${hosts[key].status}</span>
+                  </td>
+                </tr>
+
+                `)
+            }
+          }
+        })
+      }
+      get_all_hosts()
+      setInterval(function () {
+        console.log('get status services...')
+        get_all_hosts()
+      }, 5000)
+    })
+  </script>
+
+
+  {% include 'pages/footer.html' %}

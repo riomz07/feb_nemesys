@@ -1,0 +1,152 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+
+<body>
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Missions</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section ">
+      <div class="filter">
+        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots" style="font-size: 30px;"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+          <li class="dropdown-header text-start">
+            <h6>Filter</h6>
+          </li>
+
+          <li><a class="dropdown-item" href="/missions/">All Available</a></li>
+          <li><a class="dropdown-item" href="/missions/?filter_by=open">Open Board</a></li>
+          <li><a class="dropdown-item" href="/missions/?filter_by=close">Full Onboard</a></li>
+          <li><a class="dropdown-item" href="/missions/?filter_by=finished">Finished</a></li>
+        </ul>
+      </div>
+      <div class="row ">
+        {% for mission in missions %}
+        <div class="col-lg-6 ">
+          <!-- Card with titles, buttons, and links -->
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle pt-3 text-muted">{{mission.type}}</h6>
+              <h5 class="card-title" style="padding-top: 0px ">{{mission.title}}</h5>
+              <p class="card-text">{{mission.description}}</p>
+              <h6 class="card-subtitle mb-2 text-muted" style="font-size: 13px;">Location : {{mission.location}}</h6>
+              <h6 class="card-subtitle mb-2 text-muted" style="font-size: 13px;">Created at {{mission.time_created}}
+              </h6>
+              <h6 class="card-subtitle mb-2 text-muted" style="font-size: 13px;">Required Personel :
+                {{mission.personel_slot}}
+              </h6>
+
+              {% comment %} Picture Attachment {% endcomment %}
+              {% if mission.pic_attachment %}
+              <h6 class="card-subtitle mb-2 text-muted" style="font-size: 13px;">Picture Attachment :
+              </h6>
+              <div class="img-wrapper2"><a href="{{mission.pic_attachment.url}}" target="_blank">
+                  <img src="{{mission.pic_attachment.url}}" alt="Profile" class="img-fluid"></a>
+              </div>
+              {% else %}
+              <h6 class="card-subtitle mb-2 text-muted" style="font-size: 13px;">
+              </h6>
+              {% endif %}
+
+              <!-- On Board Personel  -->
+              <p class="card-text mt-3">On Board:</p>
+              {% for personel in mission.personels %}
+              <div class="d-grid gap-2 mt-3">
+                <button class="btn btn-primary" style="font-size: 13px; padding: 3px; background-color: green;"
+                  type="button" disabled>{{personel}}</button>
+              </div>
+              {% endfor %}
+
+              <!-- Closed Slot -->
+              {% if mission.open_slot == 0 %}
+              <div class="d-grid gap-2 mt-3">
+                <button class="btn btn-primary" style="font-size: 13px; padding: 3px; background-color: rgb(255, 8, 0);"
+                  type="button" disabled>All
+                  Onboard</button>
+              </div>
+              {% else %}
+
+              <!-- Open Slot, loop sesuai range slot kosong dan check apakah user available -->
+              {% if request.user.staff.status == 'Available' %}
+              <p class="card-text mt-3">Open :</p>
+              {% for i in mission.range_slot %}
+              <div class="d-grid gap-2 mt-3">
+                <a class="btn btn-primary" style="font-size: 13px; padding: 3px; " type="button"
+                  href="/missions/join-mission/?mission={{mission.id}}" data-bs-toggle="modal"
+                  data-bs-target="#modal-{{mission.id}}">Join
+                  +</a>
+              </div>
+
+              <div class="modal fade" id="modal-{{mission.id}}" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Join a Mission?</h5>
+
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you really wanna join "{{mission.title}}" mission ?
+                    </div>
+                    <div class="modal-footer">
+                      <p class="modal-title" style="font-size: 10px;"><i>you cannot cancel after joining</i></p>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a href="/missions/join-mission/?mission={{mission.id}}">
+                        <button type=" button" class="btn btn-primary">Join</button></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {% endfor %}
+              {% else %}
+              <div class="d-grid gap-2 mt-3">
+                <button class="btn btn-primary" style="font-size: 13px; padding: 3px; background-color: rgb(255, 8, 0);"
+                  type="button" disabled>You are currently at : "{{request.user.staff.status}}"</button>
+              </div>
+              {% endif %}
+              {% endif %}
+
+              {% if mission.notes %}
+              <p class="card-text mt-5">Notes:</p>
+              <p class="card-text">{{mission.notes}}</p>
+              {% endif %}
+
+              {% if mission.pic_report %}
+              <p class="card-text mt-5">Report Picture :</p>
+              <div class="img-wrapper2"><a href="{{mission.pic_report.url}}" target="_blank">
+                  <img src="{{mission.pic_report.url}}" alt="Profile" class="img-fluid"></a>
+              </div>
+              {% endif %}
+
+              <p class="card-text mt-5">Progress:</p>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar"
+                  style="width: {{mission.progress}}%; background-color: orange; ; font-weight: 700"
+                  aria-valuenow="{{mission.progress}}" aria-valuemin="0" aria-valuemax="100">{{mission.progress}}</div>
+              </div>
+
+              {% if mission.last_update_by %}
+              <p class="card-text mt-5">Last Update By : <i>{{mission.last_update_by}}</i></p>
+              {% endif %}
+            </div>
+          </div><!-- End Card with titles, buttons, and links -->
+
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+
+  {% include 'pages/footer.html' %}

@@ -1,0 +1,66 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+<head>
+  <script>
+    (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+      key: "AIzaSyCo4_qDiKbeaHkITnzfGNwHLTjoaEwRv8I",
+      // Add other bootstrap parameters as needed, using camel case.
+      // Use the 'v' parameter to indicate the version to load (alpha, beta, weekly, etc.)
+    });
+  </script>
+
+</head>
+
+<body>
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+
+
+
+    <div class="pagetitle">
+      <h1>Network Monitoring Maps</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <!-- <div class="card">
+          <div class="card-body">
+          </div>
+        </div> -->
+        <div class="col-12">
+          <div id="map" style="height: 750px;"></div>
+          <input type="hidden" id="warning" value="{% static 'assets/audio/alert.mp3' %}">
+          <input type="hidden" id="unej-logo" value="{% static 'assets/img/unej.png' %}">
+          <input type="hidden" id="router-on" value="{% static 'assets/img/router-on.svg' %}">
+          <input type="hidden" id="wifi-on" value="{% static 'assets/img/wifi-on.svg' %}">
+          <input type="hidden" id="router-off" value="{% static 'assets/img/router-off.svg' %}">
+          <input type="hidden" id="wifi-off" value="{% static 'assets/img/wifi-off.svg' %}">
+
+          <div class="col-12">
+            <button class="btn btn-warning mb-2 mt-2 w-100" style="font-weight: 700;" id="btn-mute"
+              type="submit">Mute</button>
+            <button class="btn btn-warning mb-2 mt-2 w-100" style="font-weight: 700;" id="btn-unmute" type="submit"
+              hidden>UnMute</button>
+          </div>
+
+        </div>
+
+      </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <footer>
+
+    <script src="{% static '/assets/js/netmaps.js' %}"></script>
+  </footer>
+
+
+
+  {% include 'pages/footer.html' %}

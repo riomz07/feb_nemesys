@@ -1,0 +1,153 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+
+<body>
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Profile</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              <div class="img-wrapper1">
+                {% if request.user.staff.profile_picture %}
+                <img src="{{request.user.staff.profile_picture.url}}" alt="Profile" class="img-fluid">
+                {% else %}
+                <img src="{% static 'assets/img/default_profile_pic.png' %}" alt="Profile" class="img-fluid">
+                {% endif %}
+              </div>
+              <h2>{{request.user.staff.name}}</h2>
+              <h3>{{request.user.staff.nickname}}</h3>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+
+
+                <li class="nav-item ">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
+                    Profile</button>
+                </li>
+
+
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change
+                    Password</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+
+
+
+                <div class="tab-pane fade profile-edit pt-3  show active " id="profile-edit">
+
+                  <!-- Profile Edit Form -->
+                  <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="pt-2">
+                          {{form.profile_picture}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        {{form.name}}
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="company" class="col-md-4 col-lg-3 col-form-label">Nickname</label>
+                      <div class="col-md-8 col-lg-9">
+                        {{form.nickname}}
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone Number</label>
+                      <div class="col-md-8 col-lg-9">
+                        {{form.phone}}
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+
+                </div>
+
+
+
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form method="POST" action="{% url 'change password' %}">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        {{form_change_password.old_password}}
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        {{form_change_password.new_password1}}
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        {{form_change_password.new_password2}}
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                  </form><!-- End Change Password Form -->
+
+                </div>
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+
+  {% include 'pages/footer.html' %}

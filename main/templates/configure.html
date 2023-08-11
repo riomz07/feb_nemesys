@@ -1,0 +1,370 @@
+{% load static %}
+
+
+{% include 'pages/head.html' %}
+
+
+<head> 
+  <style>
+  #map {
+    height: 600px;
+    width: 100%;
+  }
+</style>
+  <script src="{% static 'assets/js/manager.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo4_qDiKbeaHkITnzfGNwHLTjoaEwRv8I&callback=initMap" async defer></script>
+</head>
+
+<body>
+
+  {% include 'pages/navbar.html' %}
+
+  <main id="main" class="main">
+
+    {% if messages %}
+
+    {% for message in messages %}
+
+    {% if message.tags == 'success' %}
+    <h1 style="color: green;">{{message}}</h1>
+    {% elif message.tags == 'error' %}
+    <h1 style="color: red;">{{message}}</h1>
+    {% else %}
+    {% endif %}
+    
+
+    {% endfor %}
+
+    {% endif %}
+
+    <div class="pagetitle"> {% if message %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+      <h1>Configure Netmaps</h1>
+
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="col-xxl-12 col-md-12">
+            <div class="card info-card sales-card">
+
+              <div class="card-body">
+                <h5 class="card-title"></span></h5>
+
+                <div class="d-flex align-items-center mb-3">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi  bi-plus-square-fill" style="color: green;"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 style="color: green;">Tambah Network Device</h6>
+
+                  </div>
+                </div>
+                <div class="d-grid gap-2 mt-3">
+                  <button class="btn btn-success" type="button" id="button-create">Tambah</button>
+                </div>
+                <form method="POST" action="{% url 'add_network_device' %}" id="form-create" enctype="multipart/form-data"
+                  hidden>
+                  {% csrf_token %}
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.name}}
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Latitude</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.lat}}
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Longtitude</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.long}}
+                    </div>
+                  </div>
+
+
+                  <div class="row mb-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#locationModal">
+                    Pilih Lokasi dari Map
+                  </button>
+                
+                  <!-- Modal -->
+                  <div class="modal fade" id="locationModal" tabindex="-1" role="dialog" aria-labelledby="locationModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <!-- Header Modal -->
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="locationModalLabel">Pilih Lokasi dari Map</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                
+                        <!-- Isi Modal -->
+                        <div class="modal-body">
+                          <!-- Peta Google Maps akan ditampilkan di sini -->
+                          <div id="map" style="height: 400px;"></div>
+                        </div>
+                
+                        <!-- Footer Modal -->
+                        <div class="modal-footer">
+                          <!-- Tombol untuk menutup modal -->
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                
+                          <!-- Tombol untuk menyimpan lokasi -->
+                          <button type="button" class="btn btn-primary" onclick="saveLocation()">Simpan</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <!-- Skrip JavaScript -->
+                  <script>
+                    var map;
+                    var marker;
+                
+                    // Fungsi ini akan dipanggil saat halaman dimuat
+                    function initMap() {
+                      // Inisialisasi peta Google Maps
+                      map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: -8.168684, lng: 113.715874 },
+                        zoom: 19
+                      });
+                
+                      // Tambahkan event listener untuk menempatkan marker saat peta diklik
+                      map.addListener('click', function (event) {
+                        placeMarker(event.latLng);
+                      });
+                    }
+                
+                    // Fungsi ini akan menempatkan marker pada peta di lokasi yang diberikan
+                    function placeMarker(location) {
+                      if (marker) {
+                        marker.setPosition(location);
+                      } else {
+                        marker = new google.maps.Marker({
+                          position: location,
+                          map: map
+                        });
+                      }
+                    }
+                
+                    // Fungsi ini akan dipanggil saat tombol "Simpan" pada modal ditekan
+                    function saveLocation() {
+                      // Pastikan marker sudah ditentukan (lokasi sudah dipilih)
+                      if (!marker) {
+                        console.log('Tentukan lokasi terlebih dahulu.');
+                        return;
+                      }
+                
+                      // Dapatkan latitude dan longitude dari marker
+                      var latitude = marker.getPosition().lat();
+                      var longitude = marker.getPosition().lng();
+                
+                      // Tampilkan latitude dan longitude di konsol
+                      console.log('Latitude: ' + latitude);
+                      console.log('Longitude: ' + longitude);
+
+                      //Isi Lang dan Long di field
+                      
+                      $("#id_lat").val(latitude);
+                      $("#id_long").val(longitude);
+                
+                      // Sembunyikan modal setelah menyimpan lokasi
+                      $('#locationModal').modal('hide');
+                    }
+                  </script>
+                  </div>
+
+
+                  <div class="row mb-3">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">IP Address</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.ip_address}}
+                    </div>
+                  </div>
+                  <div class="row mb-3" id="personel_slot">
+                    <label for="inputNumber" class="col-sm-2 col-form-label">Type</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.type}}
+                    </div>
+                  </div>
+                  
+                  <div class="row mb-3">
+                    <div class="col-sm-10 align-items-center justify-content-center d-flex">
+                      <button type="submit" class="btn btn-success">Tambah Network Device</button>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+
+            </div>
+          </div><!-- End Sales Card -->
+
+          <div class="col-xxl-12 col-md-12">
+            <div class="card info-card sales-card">
+
+              <div class="card-body">
+                <h5 class="card-title"></span></h5>
+
+                <div class="d-flex align-items-center mb-3">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-three-dots" style="color: orange;"></i>
+                  </div>
+                  <div class="ps-3 ">
+                    <h6 style="color: orange;">Edit Network Device</h6>
+                  </div>
+                </div>
+
+
+                <form>
+                  <div class="row mb-3">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Device</label>
+                    <div class="col-sm-10">
+                      <select class="form-select" aria-label="Default select example" id="select-edit-device">
+                        <option value="" selected disabled>Pilih Device</option>
+                        {% for network_device in all_network_device %}
+                        <option value="{{network_device.id}}">{{network_device.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </form>
+
+                <form method="POST" hidden id="form_edit_network_device" action="{% url 'edit_network_device' %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <!-- Trick mengirim id  -->
+                  <input type="hidden" name="device_id" value="{{device_id}}">
+
+                  <div class="row mb-3">
+                    <label for="inputText" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.name}}
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Latitude</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.lat}}
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Longtitude</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.long}}
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">IP Address</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.ip_address}}
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Type</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.type}}
+                    </div>
+                  </div>
+                  
+                  <div class="row mb-3">
+                    <div class="col-sm-10 align-items-center justify-content-center d-flex">
+                      <button type="submit" class="btn btn-warning">Update Network Device</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-12 col-md-12">
+            <div class="card info-card sales-card">
+
+              <div class="card-body">
+                <h5 class="card-title"></span></h5>
+
+                <div class="d-flex align-items-center mb-3">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-x-square-fill" style="color: red;"></i>
+                  </div>
+                  <div class="ps-3 ">
+                    <h6 style="color: red; ">Delete Network Device</h6>
+                  </div>
+                </div>
+
+
+                <form>
+                  <div class="row mb-3">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Title</label>
+                    <div class="col-sm-10">
+                      <select class="form-select" aria-label="Default select example" id="select-titles-delete">
+                        <option value="" selected disabled>Pilih Device</option>
+                        {% for device in all_network_device %}
+                        <option value="{{device.id}}">{{device.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-sm-10 align-items-center justify-content-center d-flex">
+                      <button type="button" data-bs-toggle="modal" data-bs-target="#delete-modal" class="btn btn-danger"
+                        id="delete-modal-trigger" hidden>Delete
+                        Device</button>
+                    </div>
+                  </div>
+                </form>
+
+
+                <div class="modal fade" id="delete-modal" tabindex="-1">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Delete Device</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you really wanna delete this device ?
+                        <span id="modal-delete"></span>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                        <button type="button" id="delete-device" class="btn btn-primary">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+        
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+
+  {% include 'pages/footer.html' %}
