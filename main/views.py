@@ -54,15 +54,19 @@ def main(request):
     worst_device_latency = None
     best_latency = float('inf')
     worst_latency = 0
+    devices_online = []
+    devices_offline = []
 
     for device in all_device:
         device_ip = device.ip_address
         device_logic = NetMapsLogic(device_ip)
-        if device_logic.check_response() == "Online":
+        if device_logic.check_response() == "on":
             
             total_online += 1
-            
+            devices_online.append(device)
+
             result_latencty = device_logic.check_latency()
+            print(result_latencty)
             if result_latencty is not None:
                 print(result_latencty)
                 
@@ -79,6 +83,7 @@ def main(request):
 
         else:
             total_offline +=1
+            devices_offline.append(device)
         
             
 
@@ -88,6 +93,9 @@ def main(request):
         'total_offline':total_offline,
         'best_latency': f"{best_device_latency} ({round(best_latency, 2)})",
         'worst_latency': f"{worst_device_latency} ({round(worst_latency, 2)})",
+        'all_devices': all_device,
+        'devices_online': devices_online,
+        'devices_offline': devices_offline,
     }
 
     return render(request, 'dashboard.html',context)

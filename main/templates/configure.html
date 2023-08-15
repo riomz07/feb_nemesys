@@ -13,6 +13,64 @@
 </style>
   <script src="{% static 'assets/js/manager.js' %}"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo4_qDiKbeaHkITnzfGNwHLTjoaEwRv8I&callback=initMap" async defer></script>
+
+  
+                  <!-- Skrip JavaScript -->
+                  <script>
+                    var map;
+                    var marker;
+                
+                    // Fungsi ini akan dipanggil saat halaman dimuat
+                    function initMap() {
+                      // Inisialisasi peta Google Maps
+                      map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: -8.168684, lng: 113.715874 },
+                        zoom: 19
+                      });
+                
+                      // Tambahkan event listener untuk menempatkan marker saat peta diklik
+                      map.addListener('click', function (event) {
+                        placeMarker(event.latLng);
+                      });
+                    }
+                
+                    // Fungsi ini akan menempatkan marker pada peta di lokasi yang diberikan
+                    function placeMarker(location) {
+                      if (marker) {
+                        marker.setPosition(location);
+                      } else {
+                        marker = new google.maps.Marker({
+                          position: location,
+                          map: map
+                        });
+                      }
+                    }
+                
+                    // Fungsi ini akan dipanggil saat tombol "Simpan" pada modal ditekan
+                    function saveLocation() {
+                      // Pastikan marker sudah ditentukan (lokasi sudah dipilih)
+                      if (!marker) {
+                        console.log('Tentukan lokasi terlebih dahulu.');
+                        return;
+                      }
+                
+                      // Dapatkan latitude dan longitude dari marker
+                      var latitude = marker.getPosition().lat();
+                      var longitude = marker.getPosition().lng();
+                
+                      // Tampilkan latitude dan longitude di konsol
+                      console.log('Latitude: ' + latitude);
+                      console.log('Longitude: ' + longitude);
+
+                      //Isi Lang dan Long di field
+                      
+                      $("#id_lat").val(latitude);
+                      $("#id_long").val(longitude);
+                
+                      // Sembunyikan modal setelah menyimpan lokasi
+                      $('#locationModal').modal('hide');
+                    }
+                  </script>
 </head>
 
 <body>
@@ -80,21 +138,7 @@
                     </div>
                   </div>
 
-                  <div class="row mb-3">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Latitude</label>
-                    <div class="col-sm-10">
-                      {{form_network_device.lat}}
-                    </div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Longtitude</label>
-                    <div class="col-sm-10">
-                      {{form_network_device.long}}
-                    </div>
-                  </div>
-
-
+                  <!-- Pilih lokasi dari Map  -->
                   <div class="row mb-3">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#locationModal">
                     Pilih Lokasi dari Map
@@ -131,63 +175,24 @@
                     </div>
                   </div>
                 
-                  <!-- Skrip JavaScript -->
-                  <script>
-                    var map;
-                    var marker;
-                
-                    // Fungsi ini akan dipanggil saat halaman dimuat
-                    function initMap() {
-                      // Inisialisasi peta Google Maps
-                      map = new google.maps.Map(document.getElementById('map'), {
-                        center: { lat: -8.168684, lng: 113.715874 },
-                        zoom: 19
-                      });
-                
-                      // Tambahkan event listener untuk menempatkan marker saat peta diklik
-                      map.addListener('click', function (event) {
-                        placeMarker(event.latLng);
-                      });
-                    }
-                
-                    // Fungsi ini akan menempatkan marker pada peta di lokasi yang diberikan
-                    function placeMarker(location) {
-                      if (marker) {
-                        marker.setPosition(location);
-                      } else {
-                        marker = new google.maps.Marker({
-                          position: location,
-                          map: map
-                        });
-                      }
-                    }
-                
-                    // Fungsi ini akan dipanggil saat tombol "Simpan" pada modal ditekan
-                    function saveLocation() {
-                      // Pastikan marker sudah ditentukan (lokasi sudah dipilih)
-                      if (!marker) {
-                        console.log('Tentukan lokasi terlebih dahulu.');
-                        return;
-                      }
-                
-                      // Dapatkan latitude dan longitude dari marker
-                      var latitude = marker.getPosition().lat();
-                      var longitude = marker.getPosition().lng();
-                
-                      // Tampilkan latitude dan longitude di konsol
-                      console.log('Latitude: ' + latitude);
-                      console.log('Longitude: ' + longitude);
-
-                      //Isi Lang dan Long di field
-                      
-                      $("#id_lat").val(latitude);
-                      $("#id_long").val(longitude);
-                
-                      // Sembunyikan modal setelah menyimpan lokasi
-                      $('#locationModal').modal('hide');
-                    }
-                  </script>
                   </div>
+
+                  <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Latitude</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.lat}}
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Longtitude</label>
+                    <div class="col-sm-10">
+                      {{form_network_device.long}}
+                    </div>
+                  </div>
+
+
+                 
 
 
                   <div class="row mb-3">
@@ -256,6 +261,8 @@
                       {{form_network_device.name}}
                     </div>
                   </div>
+
+
                   <div class="row mb-3">
                     <label for="inputEmail" class="col-sm-2 col-form-label">Latitude</label>
                     <div class="col-sm-10">

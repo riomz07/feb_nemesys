@@ -26,26 +26,95 @@
 
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Nemesys Summary</h5>
+                  <h5 class="card-title">Summary</h5>
 
                   <!-- Table with hoverable rows -->
                   <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th scope="col">Total Device</th>
-                        <th scope="col">Total Online</th>
-                        <th scope="col">Total Offline</th>
-                        <th scope="col">Best Latency</th>
-                        <th scope="col">Worst Latency</th>
+                        <th scope="col" style="font-size: 25px; font-weight: 700 ;">Total Device</th>
+                        <th scope="col" style="color: green; font-size: 25px; font-weight: 700 ;">Devices Online</th>
+                        <th scope="col" style="color: red; font-size: 25px; font-weight: 700 ;">Devices Offline</th>
+                        <th scope="col" style="color: rgb(0, 157, 255); font-size: 25px; font-weight: 700 ;">Best Latency</th>
+                        <th scope="col" style="color: purple; font-size: 25px; font-weight: 700 ;">Worst Latency</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row">{{total_device}}</th>
-                        <td>{{total_online}}</td>
-                        <td>{{total_offline}}</td>
-                        <td>{{best_latency}}</td>
-                        <td>{{worst_latency}}</td>
+                        <!-- Total Device  -->
+                        <th scope="row" style="font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_all_device" style="border: 0px; background-color: transparent; text-decoration-line: underline;">{{total_device}}</button></th>
+
+                          <!-- Modal All Device -->
+                          <div class="modal fade" id="modal_all_device" tabindex="-1" role="dialog" aria-labelledby="modal-all-device" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLongTitle">Total Devices</h5>
+                                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  {%for device in all_devices%}
+                                  <p style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">{{device.name}}</p>
+                                  {%endfor%}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- End Total Device  -->
+
+                          <!-- Total Online-->
+                        <td style="color: green; font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_devices_online" style="border: 0px; background-color: transparent; text-decoration-line: underline; color: green;">{{total_online}}</button></td>
+                        <!-- Modal Devices Online -->
+                        <div class="modal fade" id="modal_devices_online" tabindex="-1" role="dialog" aria-labelledby="modal-all-device" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Devices Online</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                {%for device in devices_online%}
+                                <p style="font-size: 20px; font-weight: 700; margin-bottom: 10px; color: green;">{{device.name}}</p>
+                                {%endfor%}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Devices Online  -->
+
+
+
+
+
+                        <td style="color: red; font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_devices_offline" style="border: 0px; background-color: transparent; text-decoration-line: underline; color: red;">{{total_offline}}</button></td>
+                          <!-- Modal Devices Offline -->
+                              <div class="modal fade" id="modal_devices_offline" tabindex="-1" role="dialog" aria-labelledby="modal-all-device" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle">Devices Online</h5>
+                                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      {%for device in devices_offline%}
+                                      <p style="font-size: 20px; font-weight: 700; margin-bottom: 10px; color: red;">{{device.name}}</p>
+                                      {%endfor%}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- End Devices Offline  -->
+
+                        
+
+                        <td style="color: rgb(0, 157, 255); font-size: 25px; font-weight: 700 ;">{{best_latency}}</td>
+                        <td style="color: purple; font-size: 25px; font-weight: 700 ;">{{worst_latency}}</td>
                       </tr>
 
                     </tbody>

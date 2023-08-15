@@ -4,7 +4,7 @@ let router_on;
 let wifi_on;
 let router_off;
 let wifi_off;
-let warning_status = true
+let warning_status = false
 let mute = false
 let url_audio;
 
@@ -20,11 +20,7 @@ function display_devices(data){
 
 //Get Location URL
 $(function(){
-    unej_logo = $('#unej-logo').val()
-    router_on = $('#router-on').val()
-    wifi_on = $('#wifi-on').val()
-    router_off = $('#router-off').val()
-    wifi_off = $('#wifi-off').val()    
+    unej_logo = $('#unej-logo').val()  
     url_audio = $('#warning').val()
 
     $('#btn-mute').on('click', function(){
@@ -74,7 +70,6 @@ async function initMap() {
           icon: iconBase + "AP-off.png",
         },
       };
-      
 
       let markers =[
             [
@@ -90,7 +85,6 @@ async function initMap() {
 
       
       for(let i=0;i<data.devices.length;i++){
-        console.log(data.devices[i].icon)
         markers.push([
 
           '<div id="content">' +
@@ -116,8 +110,8 @@ async function initMap() {
 
         ])
 
-        if(data.devices[i].status=='Off'){
-          console.log('Warning Status True')
+        if(data.devices[i].device_status=='off'){
+          console.log('Warning Status to True')
           warning_status=true
         }
         
@@ -169,30 +163,21 @@ function play_warning(){
     if (!mute){
       if (warning_status){
         warning.play()
+        console.log('Warning = True') 
     }else{
-      console.log('Mute') 
+      console.log('Warning = False') 
     }
+    }else{
+      console.log('Mute = True') 
     }
-    blinking()
   })
 }
 
-function blinking() { 
-  $('*[title="Off"]').each(function() {
-    // Lakukan sesuatu dengan elemen, seperti mengubah warna latar belakang menjadi merah
-    $(this).attr('class','Off')
-    console.log('Berhasil')
-  });
- }
+initMap()
+play_warning()  
 
 setInterval(() => {
-  play_warning()
-}, 2000);
-
 initMap()
-
-setInterval(() => {
-warning_status=false
-initMap()
-}, 100000);
+play_warning()
+}, 10000);
 
