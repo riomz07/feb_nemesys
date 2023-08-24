@@ -6,4 +6,4 @@ class NetworkDeviceAdmin(admin.ModelAdmin):
     list_display = ['name', 'ip_address', 'status']
 
 
-admin.site.site_header = 'Rio Rahmat Website Admin'
+admin.site.site_header = 'FEB Nemesys Website Admin'

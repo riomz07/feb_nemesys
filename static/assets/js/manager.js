@@ -13,8 +13,9 @@ $(function(){
             url:"/configure/",
             data:{'device_id':device_id},
             dataType: 'html',
-            success: function(data){
-                $('body').html(data);
+            success: function(data){  
+                $('body').html(data);  
+                window.google = {}
                 $('#form_edit_network_device').attr('hidden',false)
             },
             error:function(data){

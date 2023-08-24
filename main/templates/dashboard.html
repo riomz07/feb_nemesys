@@ -35,8 +35,6 @@
                         <th scope="col" style="font-size: 25px; font-weight: 700 ;">Total Device</th>
                         <th scope="col" style="color: green; font-size: 25px; font-weight: 700 ;">Devices Online</th>
                         <th scope="col" style="color: red; font-size: 25px; font-weight: 700 ;">Devices Offline</th>
-                        <th scope="col" style="color: rgb(0, 157, 255); font-size: 25px; font-weight: 700 ;">Best Latency</th>
-                        <th scope="col" style="color: purple; font-size: 25px; font-weight: 700 ;">Worst Latency</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -110,17 +108,31 @@
                                 </div>
                               </div>
                               <!-- End Devices Offline  -->
-
-                        
-
-                        <td style="color: rgb(0, 157, 255); font-size: 25px; font-weight: 700 ;">{{best_latency}}</td>
-                        <td style="color: purple; font-size: 25px; font-weight: 700 ;">{{worst_latency}}</td>
                       </tr>
 
                     </tbody>
                   </table>
-                  <!-- End Table with hoverable rows -->
 
+                  <!-- End Table with hoverable rows -->
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>  
+                        <th scope="col" style="color: green; font-size: 25px; font-weight: 700 ;">Best Latency</th>
+                        <th scope="col" style="color: red; font-size: 25px; font-weight: 700 ;">Worst Latency</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="color: green; font-size: 25px; font-weight: 700 ;">{{best_latency}}</td>
+                        <td style="color: red; font-size: 25px; font-weight: 700 ;">{{worst_latency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
 

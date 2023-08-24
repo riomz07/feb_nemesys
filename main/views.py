@@ -152,7 +152,6 @@ def add_network_device(request):
 ####
 # Handle Edit Network Device Funciton
 ####
-
 @login_required(login_url='login')
 def edit_network_device(request):
 
