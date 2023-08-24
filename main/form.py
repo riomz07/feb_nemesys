@@ -11,8 +11,8 @@ class NetworkDeviceForm(forms.ModelForm):
     )
 
     name = forms.CharField(widget= forms.TextInput(attrs={'class':'form-control'}))
-    lat = forms.FloatField(widget= forms.NumberInput(attrs={'class':'form-control','id':'EditLat'}))
-    long = forms.FloatField(widget= forms.NumberInput(attrs={'class':'form-control','id':'EditLong'}))
+    lat = forms.FloatField(widget= forms.NumberInput(attrs={'class':'form-control'}))
+    long = forms.FloatField(widget= forms.NumberInput(attrs={'class':'form-control'}))
     ip_address = forms.GenericIPAddressField(widget=forms.TextInput(attrs={'class':'form-control'}))
     type = forms.ChoiceField(choices=CHOICES , widget= forms.Select(attrs={'class':'form-select'}))
 

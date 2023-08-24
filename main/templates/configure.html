@@ -62,12 +62,8 @@
     console.log('Longitude: ' + longitude);
 
     //Isi Lang dan Long di field
-    try {
       $("#id_lat").val(latitude);
       $("#id_long").val(longitude);
-    }catch {
-      console.log("Error Ndul")
-    }
 
     // Sembunyikan modal setelah menyimpan lokasi
     $('#locationModal').modal('hide');
