@@ -24,16 +24,19 @@ def check_device_availability():
     while True:
         # Lakukan logika pengecekan ketersediaan perangkat di sini
         print("Mengecek availability perangkat...")
-        all_device = NetworkDevice.objects.all()
-        for device in all_device:
-            check_device = NetMapsLogic(device.ip_address)
-            if check_device.check_response == 'off':
-                print(device.name+' = Offline')
-                report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} Status Offline")
-            else:
-                print(device.name+' = Online')
-        # Tunggu 1 menit sebelum memeriksa kembali
-        time.sleep(5)
+        try:
+            all_device = NetworkDevice.objects.all()
+            for device in all_device:
+                check_device = NetMapsLogic(device.ip_address)
+                if check_device.check_response == 'off':
+                    print(device.name+' = Offline')
+                    report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} Status Offline")
+                else:
+                    print(device.name+' = Online')
+            # Tunggu 1 menit sebelum memeriksa kembali
+            time.sleep(5)
+        except Exception as error:
+            print ('Error : '+ error)
 
 # Buat thread untuk menjalankan fungsi pengecekan
 device_check_thread = threading.Thread(target=check_device_availability)
