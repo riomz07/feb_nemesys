@@ -28,9 +28,9 @@ def check_device_availability():
             all_device = NetworkDevice.objects.all()
             for device in all_device:
                 check_device = NetMapsLogic(device.ip_address)
-                if check_device.check_response == 'off':
+                if check_device.check_response() == 'off':
                     print(device.name+' = Offline')
-                    report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} Status Offline")
+                    report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} \nStatus : Offline")
                 else:
                     print(device.name+' = Online')
             # Tunggu 1 menit sebelum memeriksa kembali
