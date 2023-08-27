@@ -34,7 +34,7 @@ def check_device_availability():
                 else:
                     print(device.name+' = Online')
             # Tunggu 1 menit sebelum memeriksa kembali
-            time.sleep(5)
+            time.sleep(60)
         except Exception as error:
             print ('Error : '+ error)
 
