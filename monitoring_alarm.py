@@ -21,7 +21,7 @@ def report_to_telegram(message):
         print(e)
 
 def check_device_availability():
-    for i in range(5):
+    while True:
         # Lakukan logika pengecekan ketersediaan perangkat di sini
         print("Mengecek availability perangkat...")
         all_device = NetworkDevice.objects.all()
