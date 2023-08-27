@@ -7,7 +7,6 @@ from .logic.NetMaps import NetMapsLogic
 from .decorators import unauth_user
 from . import models, form
 
-
 ####
 # Handle Login
 ####
@@ -65,7 +64,7 @@ def main(request):
             total_online += 1
             devices_online.append(device)
 
-            result_latencty = device_logic.check_latency()
+            result_latencty = float(device_logic.check_latency())
             print(result_latencty)
             if result_latencty is not None:
                 print(result_latencty)
@@ -116,7 +115,6 @@ def netmaps(request):
 def configure(request):
 
     global device_id
-
     all_network_device = models.NetworkDevice.objects.all()
 
     if request.GET.get('device_id','none') != 'none':
@@ -204,4 +202,3 @@ def netmaps_data(request):
         })
         
     return JsonResponse({'devices':json_device})  
-

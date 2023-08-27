@@ -311,4 +311,44 @@
     }, 200);
   }
 
+
+    // Fungsi untuk mengaktifkan mode gelap
+    function aktifkanModeGelap() {
+      $("body").addClass("dark-mode");
+      console.log('Dark Mode')
+      // Simpan preferensi mode gelap di local storage jika diperlukan
+    }
+
+    // Fungsi untuk menonaktifkan mode gelap
+    function nonaktifkanModeGelap() {
+      $("body").removeClass("dark-mode");
+      // Nonaktifkan preferensi mode gelap di local storage jika diperlukan
+    }
+
+    // Fungsi untuk memeriksa status mode gelap saat halaman dimuat
+    function periksaStatusModeGelap() {
+      // Periksa preferensi mode gelap di local storage jika diperlukan
+      const preferensiModeGelap = localStorage.getItem("modeGelap");
+
+      if (preferensiModeGelap === "aktif") {
+        aktifkanModeGelap();
+      } else {
+        nonaktifkanModeGelap();
+      }
+    }
+
+    // Event listener untuk tombol mode gelap menggunakan jQuery
+    $("#tombol-mode-gelap").click(function() {
+      if ($("body").hasClass("dark-mode")) {
+        nonaktifkanModeGelap();
+        // Simpan preferensi mode gelap nonaktif di local storage jika diperlukan
+      } else {
+        aktifkanModeGelap();
+        // Simpan preferensi mode gelap aktif di local storage jika diperlukan
+      }
+    });
+
+    // Panggil fungsi periksaStatusModeGelap saat halaman dimuat
+    periksaStatusModeGelap();
+
 })();
