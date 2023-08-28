@@ -14,7 +14,7 @@ class NetworkDevice(models.Model):
     lat = models.FloatField(null=True)
     long = models.FloatField(null=True)
     ip_address = models.GenericIPAddressField(max_length=100, null=True)
-    status = models.BooleanField(null=True, blank=True, default=False)
+    last_status = models.BooleanField(null=True, blank=True, default=False)
     latency = models.IntegerField(null=True, blank=True, default=0)
     type = models.CharField(max_length=100,null=True, choices=CHOICES)
 

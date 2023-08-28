@@ -16,6 +16,6 @@ class NetMapsLogic:
     def check_latency(self):
         response = ping(self.ip, timeout=0.01, unit='ms')
         if response == False or response == None:
-            return response
+            return 1000
         else :
             return response

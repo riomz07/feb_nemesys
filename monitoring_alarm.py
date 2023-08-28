@@ -6,6 +6,7 @@ django.setup()
 from main.models import NetworkDevice
 from main.logic.NetMaps import NetMapsLogic
 import requests
+import datetime
 
 
 
@@ -20,6 +21,7 @@ def report_to_telegram(message):
     except Exception as e:
         print(e)
 
+
 def check_device_availability():
     while True:
         # Lakukan logika pengecekan ketersediaan perangkat di sini
@@ -28,9 +30,26 @@ def check_device_availability():
             all_device = NetworkDevice.objects.all()
             for device in all_device:
                 check_device = NetMapsLogic(device.ip_address)
-                if check_device.check_response() == 'off':
-                    print(device.name+' = Offline')
-                    report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} \nStatus : Offline")
+                current_status = check_device.check_response()                            
+                # if last status on & device status now off :
+                # 	change status to off
+                # 	and notif detil with time 
+                if current_status == 'off' and device.last_status == True:
+                    device.last_status = False
+                    device.save()
+                    print(device.name+ ' = Offline')
+                    now = datetime.datetime.now()
+                    report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} \nStatus : Offline\nWaktu : {now}") 
+                # if last status off & device status now on:
+                # 	change status to on
+                # 	and notif detil with time 
+                elif current_status == 'on' and device.last_status == False:
+                    device.last_status = True
+                    device.save()
+                    print(device.name+ ' = Back Online')
+                    now = datetime.datetime.now()
+                    formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+                    report_to_telegram(f"Assalamualaikum Admin, Alhamdulillah: \n{device.name} \nStatus : Kembali Online\nWaktu : {formatted_time}")
                 else:
                     print(device.name+' = Online')
             # Tunggu 1 menit sebelum memeriksa kembali
