@@ -39,7 +39,8 @@ def check_device_availability():
                     device.save()
                     print(device.name+ ' = Offline')
                     now = datetime.datetime.now()
-                    report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} \nStatus : Offline\nWaktu : {now}") 
+                    formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+                    report_to_telegram(f"Assalamualaikum Admin, ada masalah : \n{device.name} \nStatus : Offline\nWaktu : {formatted_time}") 
                 # if last status off & device status now on:
                 # 	change status to on
                 # 	and notif detil with time 
