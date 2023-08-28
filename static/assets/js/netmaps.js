@@ -179,5 +179,5 @@ play_warning()
 setInterval(() => {
 initMap()
 play_warning()
-}, 10000);
+}, 60000);
 
