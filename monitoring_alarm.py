@@ -50,7 +50,7 @@ def check_device_availability():
                     print(device.name+ ' = Back Online')
                     now = datetime.datetime.now()
                     formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
-                    report_to_telegram(f"Alhamdulillah problem have been solve : \n{device.name} \nStatus : Online\Time : {formatted_time}")
+                    report_to_telegram(f"Alhamdulillah problem have been solve : \n{device.name} \nStatus : Online\nTime : {formatted_time}")
                 else:
                     print(device.name+' = Online')
             # Tunggu 1 menit sebelum memeriksa kembali
