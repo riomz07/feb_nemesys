@@ -74,15 +74,15 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th scope="col" style="font-size: 25px; font-weight: 700 ;">Total Device</th>
-                        <th scope="col" style="color: green; font-size: 25px; font-weight: 700 ;">Devices Online</th>
-                        <th scope="col" style="color: red; font-size: 25px; font-weight: 700 ;">Devices Offline</th>
+                        <th scope="col" style="color: white;  font-size: 25px; font-weight: 700 ;">Total Device</th>
+                        <th scope="col" style="color: springgreen; font-size: 25px; font-weight: 700 ;">Devices Online</th>
+                        <th scope="col" style="color: orangered; font-size: 25px; font-weight: 700 ;">Devices Offline</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <!-- Total Device  -->
-                        <th scope="row" style="font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_all_device" style="border: 0px; background-color: transparent; text-decoration-line: underline;">{{total_device}}</button></th>
+                        <th scope="row" style="color: white; font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_all_device" style=" color: white;border: 0px; background-color: transparent; text-decoration-line: underline;">{{total_device}}</button></th>
 
                           <!-- Modal All Device -->
                           <div class="modal fade" id="modal_all_device" tabindex="-1" role="dialog" aria-labelledby="modal-all-device" aria-hidden="true">
@@ -105,7 +105,7 @@
                           <!-- End Total Device  -->
 
                           <!-- Total Online-->
-                        <td style="color: green; font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_devices_online" style="border: 0px; background-color: transparent; text-decoration-line: underline; color: green;">{{total_online}}</button></td>
+                        <td style="color: springgreen; font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_devices_online" style="border: 0px; background-color: transparent; text-decoration-line: underline; color: springgreen;">{{total_online}}</button></td>
                         <!-- Modal Devices Online -->
                         <div class="modal fade" id="modal_devices_online" tabindex="-1" role="dialog" aria-labelledby="modal-all-device" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered" role="document">
@@ -130,7 +130,7 @@
 
 
 
-                        <td style="color: red; font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_devices_offline" style="border: 0px; background-color: transparent; text-decoration-line: underline; color: red;">{{total_offline}}</button></td>
+                        <td style="color: orangered; font-size: 30px; font-weight: 700 ;"><button type="button" data-bs-toggle="modal" data-bs-target="#modal_devices_offline" style="border: 0px; background-color: transparent; text-decoration-line: underline; color: orangered;">{{total_offline}}</button></td>
                           <!-- Modal Devices Offline -->
                               <div class="modal fade" id="modal_devices_offline" tabindex="-1" role="dialog" aria-labelledby="modal-all-device" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -164,14 +164,14 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>  
-                        <th scope="col" style="color: green; font-size: 25px; font-weight: 700 ;">Best Latency</th>
-                        <th scope="col" style="color: red; font-size: 25px; font-weight: 700 ;">Worst Latency</th>
+                        <th scope="col" style="color: springgreen; font-size: 25px; font-weight: 700 ;">Best Latency</th>
+                        <th scope="col" style="color: orangered; font-size: 25px; font-weight: 700 ;">Worst Latency</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="color: green; font-size: 25px; font-weight: 700 ;">{{best_latency}}</td>
-                        <td style="color: red; font-size: 25px; font-weight: 700 ;">{{worst_latency}}</td>
+                        <td style="color: springgreen; font-size: 25px; font-weight: 700 ;">{{best_latency}}</td>
+                        <td style="color: orangered; font-size: 25px; font-weight: 700 ;">{{worst_latency}}</td>
                       </tr>
                     </tbody>
                   </table>
