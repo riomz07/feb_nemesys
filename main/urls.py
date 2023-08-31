@@ -12,4 +12,5 @@ urlpatterns = [
     path('edit_network_devices', views.edit_network_device, name='edit_network_device'),
     path('delete_network_device', views.delete_network_device, name='delete_network_device'),
     path('get_netmaps_data', views.netmaps_data, name='get_netmaps_data'),
+    path('services', views.services, name='services'),
 ]

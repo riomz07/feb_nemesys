@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from .logic.NetMaps import NetMapsLogic
 from .decorators import unauth_user
 from . import models, form
+import subprocess
 
 ####
 # Handle Login
@@ -202,3 +203,23 @@ def netmaps_data(request):
         })
         
     return JsonResponse({'devices':json_device})  
+
+
+####
+# Handle Services
+####
+@login_required(login_url='login')
+def services(request):
+    # Eksekusi perintah
+    try:
+        result_mes = subprocess.run(["systemctl status monitor", ""], stdout=subprocess.PIPE, text=True)
+    except Exception as e:
+        result_mes = e
+    
+    monitoring_engine_status = result_mes
+    # Cetak hasil
+    context = {'monitoring_engine_status':monitoring_engine_status}
+    return render(request, 'services.html',context)
+
+
+

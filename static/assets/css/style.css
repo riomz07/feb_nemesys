@@ -104,7 +104,7 @@ h6 {
   animation-duration: 0.2s;
   animation-fill-mode: both;
   border: 0;
-  box-shadow: 0 5px 30px 0 rgba(0, 94, 255, 0.557);
+  box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.557);
 }
 
 .dropdown-menu .dropdown-header,

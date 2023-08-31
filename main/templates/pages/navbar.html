@@ -82,14 +82,14 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item ">
-            <a class="nav-link {% if request.path != '/dashboard' %}collapsed{% endif %}" href="{% url 'main' %}">
+            <a class="nav-link {% if request.path != '/' %}collapsed{% endif %}" href="{% url 'main' %}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link {% if request.path != '/user-profile' %}collapsed{% endif %}"
+            <a class="nav-link {% if request.path != '/netmaps' %}collapsed{% endif %}"
                 href="{% url 'netmaps' %}">
                 <i class="bi bi-globe-americas"></i>
                 <span>NetMaps</span>
@@ -97,9 +97,16 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link {% if request.path != '/my-status' %}collapsed{% endif %}" href="{% url 'configure' %}">
-                <i class="bx bxs-user-detail"></i>
+            <a class="nav-link {% if request.path != '/configure/' %}collapsed{% endif %}" href="{% url 'configure' %}">
+                <i class="bx bx-cog"></i>
                 <span>Configure</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link {% if request.path != '/my-status' %}collapsed{% endif %}" href="{% url 'services' %}">
+                <i class="bx bx-category"></i>
+                <span>Services</span>
             </a>
         </li><!-- End Profile Page Nav -->
 
