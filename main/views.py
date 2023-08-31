@@ -212,7 +212,8 @@ def netmaps_data(request):
 def services(request):
     # Eksekusi perintah
     try:
-        result_mes = subprocess.run(["systemctl status monitor", ""], stdout=subprocess.PIPE, text=True)
+        result = subprocess.run(["systemctl","status", "monitor"], stdout=subprocess.PIPE, text=True)
+        result_mes = result.stdout
     except Exception as e:
         result_mes = e
     
