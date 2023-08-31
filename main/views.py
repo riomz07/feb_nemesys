@@ -217,10 +217,12 @@ def services(request):
         result_mes = result.stdout
     except Exception as e:
         result_mes = e
+
+    all_device = models.NetworkDevice.objects.all()
     
     monitoring_engine_status = result_mes
     # Cetak hasil
-    context = {'monitoring_engine_status':monitoring_engine_status}
+    context = {'monitoring_engine_status':monitoring_engine_status,'all_device':all_device}
     return render(request, 'services.html',context)
 
 
