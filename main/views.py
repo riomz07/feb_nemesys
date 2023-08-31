@@ -212,7 +212,7 @@ def netmaps_data(request):
 def services(request):
     # Eksekusi perintah
     try:
-        command = "systemctl status nginx | grep 'Active:' | awk '{print $2}'"
+        command = "systemctl status monitor | grep 'Active:' | awk '{print $2}'"
         result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
         result_mes = result.stdout
     except Exception as e:
