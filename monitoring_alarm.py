@@ -118,8 +118,7 @@ def check_device_availability():
                 has_been_reboot = 0
                 print('Reset -has been reboot- ')
             else:
-                summary_restart = SummaryRestart(summary = f"Test" )
-                summary_restart.save()
+                pass
 
             for device in all_device:
                 check_device = NetMapsLogic(device.ip_address)
