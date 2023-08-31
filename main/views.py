@@ -8,6 +8,8 @@ from .decorators import unauth_user
 from . import models, form
 import subprocess
 
+summary_restart = 'Summary Restart on Progress'
+
 ####
 # Handle Login
 ####
@@ -219,10 +221,11 @@ def services(request):
         result_mes = e
 
     all_device = models.NetworkDevice.objects.all()
-    
+    summary_restart = models.SummaryRestart.objects.latest('time')
+
     monitoring_engine_status = result_mes
     # Cetak hasil
-    context = {'monitoring_engine_status':monitoring_engine_status,'all_device':all_device}
+    context = {'monitoring_engine_status':monitoring_engine_status,'all_device':all_device,'summary_restart':summary_restart}
     return render(request, 'services.html',context)
 
 

@@ -5,5 +5,9 @@ from . import models
 class NetworkDeviceAdmin(admin.ModelAdmin):
     list_display = ['name', 'ip_address', 'last_status','fail_check']
 
+@admin.register(models.SummaryRestart)
+class SummaryRestartAdmin(admin.ModelAdmin):
+    list_display = ['summary','time']
+
 
 admin.site.site_header = 'FEB Nemesys Website Admin'

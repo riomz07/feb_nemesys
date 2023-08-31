@@ -3,11 +3,11 @@ import threading, time, django, os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','nemesys_feb.settings')
 django.setup()
 
-from main.models import NetworkDevice
+from main.models import NetworkDevice, SummaryRestart
 from main.logic.NetMaps import NetMapsLogic
 import requests
 import datetime
-
+import paramiko
 
 
 #Report to telegram
@@ -21,13 +21,106 @@ def report_to_telegram(message):
     except Exception as e:
         print(e)
 
+#variable user dan password ssh
+user = "aproot"
+passw = "Asdf123#"
+
+#variable kalkulasi summary 
+total_ap = 0
+ap_berhasil = 0
+ap_gagal = 0
+list_ap_gagal = set()
+
+#inisiasi variable paramiko
+ssh = paramiko.SSHClient()
+
+has_been_reboot = 0
+
+#membuat fungsi ssh dengan 5 parameter 
+def run_command_on_device(ip_address, username, password, command, device_name):
+        # Load SSH host keys.
+        ssh.load_system_host_keys()
+        # Add SSH host key automatically if needed.
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        for attemp in range(1,4):
+            #try jika berhasil
+            try:
+                print("Percobaan Koneksi ke : %s" %attemp)
+                #Mengkoneksikan ssh ke ip menggunakan user dan pass yang telah di deklarasikan
+                ssh.connect(ip_address, username=username,password=password,look_for_keys=False)
+                #eksekusi perintah
+                ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(command)
+                #insiasi output ke variable (gk perlu)
+                output = ssh_stdout.readlines()
+                #tutup koneksi
+                ssh.close()
+                
+                print(f"Berhasil Reboot {device_name} #  {str(attemp)}")
+
+                #inisiasi global variable
+                global ap_berhasil
+                #tambah value
+                ap_berhasil += 1
+
+                return output
+
+            #jika gagal
+            except Exception as error_message:
+
+                print(f"Tidak dapat terkoneksi {device_name} #  {str(attemp)}")
+                
+                #inisiasi global variable   
+                global ap_gagal
+                global list_ap_gagal
+
+                print(device_name in list_ap_gagal)
+                
+                #jika nama perangkat belum terdaftar tambah ke list daftar ap gagal
+                if device_name not in list_ap_gagal:
+                    ap_gagal +=1
+
+                #tambahkan ke daftar ap gagal    
+                list_ap_gagal.add(f"{device_name}")
+
 
 def check_device_availability():
     while True:
-        # Lakukan logika pengecekan ketersediaan perangkat di sini
+        all_device = NetworkDevice.objects.all()
+
+    # Lakukan logika pengecekan ketersediaan perangkat di sini
         print("Mengecek availability perangkat...")
         try:
-            all_device = NetworkDevice.objects.all()
+            # Dapatkan waktu saat ini
+            waktu_sekarang = datetime.datetime.now().time()
+            # Tentukan rentang waktu yang ingin Anda periksa
+            rentang_waktu_mulai = datetime.time(0, 0)  # Jam 00:00
+            rentang_waktu_selesai = datetime.time(0, 59)  # Jam 00:59
+            rentang_waktu_reset = datetime.time(1, 0)  # Jam 00:00
+            rentang_waktu_reset = datetime.time(1, 59)  # Jam 00:59
+
+            if rentang_waktu_mulai <= waktu_sekarang <= rentang_waktu_selesai and has_been_reboot == 0:
+                for device in all_device:
+                    run_command_on_device(device.ip_address, user, passw, "reboot", device.name)
+
+                report_to_telegram(f"Summary Midnight Reboot AP FEB\nTime: {waktu_sekarang}\nTotal AP: {total_ap}\nBerhasil Reboot : {ap_berhasil}\nGagal Reboot : {ap_gagal}\nList AP yang gagal reboot : \n{list_ap_gagal}")
+
+                summary_restart = SummaryRestart(summary = f"Summary Midnight Reboot AP FEB\nTime: {waktu_sekarang}\nTotal AP: {total_ap}\nBerhasil Reboot : {ap_berhasil}\nGagal Reboot : {ap_gagal}\nList AP yang gagal reboot : \n{list_ap_gagal}" )
+                summary_restart.save()
+                
+                # Reset all count
+                total_ap = 0
+                ap_berhasil = 0
+                ap_gagal = 0
+                list_ap_gagal = set()
+                has_been_reboot = 1
+
+            elif rentang_waktu_reset <= waktu_sekarang <= rentang_waktu_reset and has_been_reboot == 1:
+                has_been_reboot = 0
+                print('Reset -has been reboot- ')
+            else:
+                summary_restart = SummaryRestart(summary = f"Test" )
+                summary_restart.save()
+
             for device in all_device:
                 check_device = NetMapsLogic(device.ip_address)
                 current_status = check_device.check_response()                            
