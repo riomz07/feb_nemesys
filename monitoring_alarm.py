@@ -8,6 +8,8 @@ from main.logic.NetMaps import NetMapsLogic
 import requests
 import datetime
 import paramiko
+import sys
+
 
 
 #Report to telegram
@@ -87,18 +89,20 @@ def check_device_availability():
     while True:
         all_device = NetworkDevice.objects.all()
 
-    # Lakukan logika pengecekan ketersediaan perangkat di sini
-        print("Mengecek availability perangkat...")
+        # Lakukan logika pengecekan ketersediaan perangkat di sini
         try:
             # Dapatkan waktu saat ini
             waktu_sekarang = datetime.datetime.now().time()
             # Tentukan rentang waktu yang ingin Anda periksa
-            rentang_waktu_mulai = datetime.time(0, 0)  # Jam 00:00
-            rentang_waktu_selesai = datetime.time(0, 59)  # Jam 00:59
+            rentang_waktu_mulai = datetime.time(8, 0)  # Jam 00:00
+            rentang_waktu_selesai = datetime.time(8, 59)  # Jam 00:59
             rentang_waktu_reset = datetime.time(1, 0)  # Jam 00:00
             rentang_waktu_reset = datetime.time(1, 59)  # Jam 00:59
 
+            global has_been_reboot
+
             if rentang_waktu_mulai <= waktu_sekarang <= rentang_waktu_selesai and has_been_reboot == 0:
+                print('Masuk waktu reboot')
                 for device in all_device:
                     run_command_on_device(device.ip_address, user, passw, "reboot", device.name)
 
@@ -119,7 +123,11 @@ def check_device_availability():
                 print('Reset -has been reboot- ')
             else:
                 pass
+            
 
+                
+            print("Mengecek availability perangkat...")
+            # check Device availability dengan minium 3x fail check baru rubah status 
             for device in all_device:
                 check_device = NetMapsLogic(device.ip_address)
                 current_status = check_device.check_response()                            
