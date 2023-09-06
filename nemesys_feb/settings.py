@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['10.10.10.61','nemesys.feb.unej.ac.id',"localhost","nemesys-feb.unej.site"]
 
-CSRF_TRUSTED_ORIGINS = ['http://10.10.10.61','https://nemesys.feb.unej.ac.id','nemesys-feb.unej.site']
+CSRF_TRUSTED_ORIGINS = ['http://10.10.10.61','https://nemesys.feb.unej.ac.id','https://nemesys-feb.unej.site']
 
 
 # Application definition
