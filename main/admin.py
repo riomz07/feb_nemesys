@@ -9,5 +9,9 @@ class NetworkDeviceAdmin(admin.ModelAdmin):
 class SummaryRestartAdmin(admin.ModelAdmin):
     list_display = ['summary','time']
 
+@admin.register(models.RestartStatus)
+class SummaryRestartAdmin(admin.ModelAdmin):
+    list_display = ['status']
+
 
 admin.site.site_header = 'FEB Nemesys Website Admin'
