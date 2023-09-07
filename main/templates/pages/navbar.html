@@ -25,32 +25,23 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    {% if request.user.staff.profile_picture %}
-                    <img src="{{request.user.staff.profile_picture.url}}" alt="Profile" class="">
-                    {% else %}
-                    <img src="{% static 'assets/img/default_profile_pic.png' %}" alt="Profile" class="">
-                    {% endif %}
+                    
+                    <h6 style="text-transform: capitalize;">Hello Mr. {{request.user.username}}</h6>
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{request.user.staff.name}}</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li class="dropdown-header">
+                    <!-- <li class="dropdown-header">
                         <h6>{{request.user.username}}</h6>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                    </li> -->
+                
 
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
+                    <!-- <li>
                         <a class="dropdown-item d-flex align-items-center" href="{% url 'main' %}">
                             <i class="bi bi-gear"></i>
                             <span>Account Settings</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <hr class="dropdown-divider">
                     </li>
