@@ -3,12 +3,11 @@ import threading, time, django, os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','nemesys_feb.settings')
 django.setup()
 
-from main.models import NetworkDevice, SummaryRestart
+from main.models import NetworkDevice, SummaryRestart, RestartStatus
 from main.logic.NetMaps import NetMapsLogic
 import requests
 import datetime
 import paramiko
-import sys
 
 
 
@@ -36,7 +35,6 @@ list_ap_gagal = set()
 #inisiasi variable paramiko
 ssh = paramiko.SSHClient()
 
-has_been_reboot = 0
 
 #membuat fungsi ssh dengan 5 parameter 
 def run_command_on_device(ip_address, username, password, command, device_name):
@@ -94,14 +92,21 @@ def check_device_availability():
             # Dapatkan waktu saat ini
             waktu_sekarang = datetime.datetime.now().time()
             # Tentukan rentang waktu yang ingin Anda periksa
-            rentang_waktu_mulai = datetime.time(8, 0)  # Jam 00:00
-            rentang_waktu_selesai = datetime.time(8, 59)  # Jam 00:59
-            rentang_waktu_reset = datetime.time(1, 0)  # Jam 00:00
-            rentang_waktu_reset = datetime.time(1, 59)  # Jam 00:59
+            rentang_waktu_mulai = datetime.time(18, 0)  # Jam 00:00
+            rentang_waktu_selesai = datetime.time(18, 59)  # Jam 00:59
+            rentang_waktu_reset = datetime.time(17, 0)  # Jam 1:00
+            rentang_waktu_reset = datetime.time(17, 59)  # Jam 1:59
 
-            global has_been_reboot
+            restart_status = RestartStatus.objects.latest('status')
 
-            if rentang_waktu_mulai <= waktu_sekarang <= rentang_waktu_selesai and has_been_reboot == 0:
+            # Waktu Restart
+            if rentang_waktu_mulai <= waktu_sekarang <= rentang_waktu_selesai and restart_status.status == False:
+
+                global total_ap
+                global ap_berhasil
+                global ap_gagal
+                global list_ap_gagal
+
                 print('Masuk waktu reboot')
                 for device in all_device:
                     run_command_on_device(device.ip_address, user, passw, "reboot", device.name)
@@ -116,10 +121,14 @@ def check_device_availability():
                 ap_berhasil = 0
                 ap_gagal = 0
                 list_ap_gagal = set()
-                has_been_reboot = 1
 
-            elif rentang_waktu_reset <= waktu_sekarang <= rentang_waktu_reset and has_been_reboot == 1:
-                has_been_reboot = 0
+                restart_status.status = True
+                restart_status.save()
+                
+            # Waktu Reset 
+            elif rentang_waktu_reset <= waktu_sekarang <= rentang_waktu_reset and restart_status == True:
+                restart_status.status = False
+                restart_status.save()
                 print('Reset -has been reboot- ')
             else:
                 pass

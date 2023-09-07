@@ -41,3 +41,17 @@ class SummaryRestart(models.Model):
         verbose_name = 'Summary Restart'
         verbose_name_plural = 'Summaries Restart'
         ordering = ['summary']
+
+
+class RestartStatus(models.Model):
+    
+    status = models.BooleanField(null=True, blank=True, default=False)
+
+
+    def __str__(self) -> str:
+        return self.status
+
+    class Meta:
+        verbose_name = 'Status Restart'
+        verbose_name_plural = 'Status Restart'
+        ordering = ['status']
