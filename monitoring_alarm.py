@@ -111,7 +111,7 @@ def check_device_availability():
                         formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
                         report_to_telegram(f"🚨🚨🚨🚨🚨\nAstagfirullah we have some problem : \n{device.name} \nStatus : Offline\nTime : {formatted_time}") 
 
-                    elif device.fail_check/1440 == 0:
+                    elif device.fail_check%1440 == 0:
                         device.fail_check += 1
                         device.save()
 
@@ -127,7 +127,7 @@ def check_device_availability():
 
                 #If Current Status Offline and Last Status Offline too
                 elif current_status == 'off' and device.last_status == False:
-                    print(device.name + 'Already Offline Add 1 fail check')
+                    print(device.name + ' Already Offline Add 1 fail check')
                     device.fail_check += 1
                     device.save()
 
@@ -136,7 +136,7 @@ def check_device_availability():
                     device.last_status = True
                     device.fail_check = 0
                     device.save()
-                    print(device.name + 'Stay Online')
+                    print(device.name + ' Stay Online')
 
                 elif current_status == 'on' and device.last_status == False:
                     device.last_status = True
