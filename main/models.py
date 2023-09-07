@@ -48,8 +48,8 @@ class RestartStatus(models.Model):
     status = models.BooleanField(null=True, blank=True, default=False)
 
 
-    def __str__(self) -> str:
-        return self.status
+    # def __str__(self) -> str:
+    #     return self.status
 
     class Meta:
         verbose_name = 'Status Restart'
