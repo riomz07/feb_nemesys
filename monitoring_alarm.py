@@ -86,9 +86,82 @@ def run_command_on_device(ip_address, username, password, command, device_name):
 def check_device_availability():
     while True:
         all_device = NetworkDevice.objects.all()
-
-        # Lakukan logika pengecekan ketersediaan perangkat di sini
         try:
+            #------------------
+            #Handle Check Availability Perangkat
+            #------------------
+            # check Device availability dengan minium 3x fail check baru rubah status 
+            print("Mengecek availability perangkat...")
+            for device in all_device:
+                check_device = NetMapsLogic(device.ip_address)
+                current_status = check_device.check_response()            
+
+
+                #Jika current status off and last on too
+                if current_status == 'off' and device.last_status == True:
+                    #Jika perangkat sudah terhitung 3 menit mati... jadikan last status menjadi False/Offline
+                    if device.fail_check == 3 :
+                        device.last_status = False
+                        device.fail_check += 1
+                        device.save()
+
+                        #Notif
+                        print(device.name + ' = Offline')
+                        now = datetime.datetime.now()
+                        formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+                        report_to_telegram(f"🚨🚨🚨🚨🚨\nAstagfirullah we have some problem : \n{device.name} \nStatus : Offline\nTime : {formatted_time}") 
+
+                    elif device.fail_check/1440 == 0:
+                        device.fail_check += 1
+                        device.save()
+
+                        #Notif
+                        print(device.name + ' = Offline 1 Day')
+                        now = datetime.datetime.now()
+                        formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+                        report_to_telegram(f"🚨🚨🚨🚨🚨\nAstagfirullah Device Already 1 Day Offline : \n{device.name} \nStatus : 1 Day Offline\nTime : {formatted_time}") 
+
+                    else:
+                        device.fail_check += 1
+                        device.save()
+
+                #If Current Status Offline and Last Status Offline too
+                elif current_status == 'off' and device.last_status == False:
+                    device.fail_check += 1
+                    device.save()
+
+
+                elif current_status == 'on' and device.last_status == True:
+                    pass
+
+                elif current_status == 'on' and device.last_status == False:
+                    device.last_status = True
+                    device.fail_check = 0
+                    device.save()
+
+                    print(device.name+ ' = Back Online')
+                    now = datetime.datetime.now()
+                    formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+                    report_to_telegram(f"✅✅✅✅✅\nAlhamdulillah problem have been solve : \n{device.name} \nStatus : Online\nTime : {formatted_time}")
+
+                else:
+                    device.last_status = True
+                    device.fail_check = 0
+                    device.save()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             # Dapatkan waktu saat ini
             waktu_sekarang = datetime.datetime.now().time()
             # Tentukan rentang waktu yang ingin Anda periksa
@@ -132,42 +205,6 @@ def check_device_availability():
                 print('Reset -has been reboot- ')
             else:
                 pass
-            
-
-                
-            print("Mengecek availability perangkat...")
-            # check Device availability dengan minium 3x fail check baru rubah status 
-            for device in all_device:
-                check_device = NetMapsLogic(device.ip_address)
-                current_status = check_device.check_response()                            
-                # if last status on & device status now off :
-                # 	change status to off
-                # 	and notif detil with time 
-                if current_status == 'off' and device.last_status == True:
-                    if device.fail_check >= 3 :
-                        device.last_status = False
-                        device.fail_check = 0
-                        device.save()
-                        print(device.name+ ' = Offline')
-                        now = datetime.datetime.now()
-                        formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
-                        report_to_telegram(f"🚨🚨🚨🚨🚨\nAstagfirullah we have some problem : \n{device.name} \nStatus : Offline\nTime : {formatted_time}") 
-                    else:
-                        device.fail_check += 1
-                        device.save()
-                # if last status off & device status now on:
-                # 	change status to on
-                # 	and notif detil with time 
-                elif current_status == 'on' and device.last_status == False:
-                    device.last_status = True
-                    device.fail_check = 0
-                    device.save()
-                    print(device.name+ ' = Back Online')
-                    now = datetime.datetime.now()
-                    formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
-                    report_to_telegram(f"✅✅✅✅✅\nAlhamdulillah problem have been solve : \n{device.name} \nStatus : Online\nTime : {formatted_time}")
-                else:
-                    print(device.name+' = Online')
             # Tunggu 1 menit sebelum memeriksa kembali
             time.sleep(60)
         except Exception as error:
