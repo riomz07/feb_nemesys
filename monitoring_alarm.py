@@ -127,12 +127,16 @@ def check_device_availability():
 
                 #If Current Status Offline and Last Status Offline too
                 elif current_status == 'off' and device.last_status == False:
+                    print(device.name + 'Already Offline Add 1 fail check')
                     device.fail_check += 1
                     device.save()
 
 
                 elif current_status == 'on' and device.last_status == True:
-                    pass
+                    device.last_status = True
+                    device.fail_check = 0
+                    device.save()
+                    print(device.name + 'Stay Online')
 
                 elif current_status == 'on' and device.last_status == False:
                     device.last_status = True
@@ -205,8 +209,11 @@ def check_device_availability():
                 print('Reset -has been reboot- ')
             else:
                 pass
+
+
             # Tunggu 1 menit sebelum memeriksa kembali
             time.sleep(60)
+
         except Exception as error:
             print ('Error : '+ error)
 
