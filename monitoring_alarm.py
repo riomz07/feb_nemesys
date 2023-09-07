@@ -111,7 +111,7 @@ def check_device_availability():
                         formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
                         report_to_telegram(f"🚨🚨🚨🚨🚨\nAstagfirullah we have some problem : \n{device.name} \nStatus : Offline\nTime : {formatted_time}") 
 
-                    elif device.fail_check%1440 == 0:
+                    elif device.fail_check == 1440:
                         device.fail_check += 1
                         device.save()
 
