@@ -61,7 +61,7 @@ async function initMap() {
 
       data = response
 
-      const iconBase = "https://localhost:8000/static/assets/img/";
+      const iconBase = "https://nemesys.feb.unej.ac.id/static/assets/img/";
       const icons = {
         AP_on: {
           icon: iconBase + "AP-on.png",
