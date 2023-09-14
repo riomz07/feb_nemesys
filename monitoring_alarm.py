@@ -154,25 +154,13 @@ def check_device_availability():
                     device.save()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
             # Dapatkan waktu saat ini
             waktu_sekarang = datetime.datetime.now().time()
             # Tentukan rentang waktu yang ingin Anda periksa
-            rentang_waktu_mulai = datetime.time(18, 0)  # Jam 00:00
-            rentang_waktu_selesai = datetime.time(18, 59)  # Jam 00:59
-            rentang_waktu_reset = datetime.time(17, 0)  # Jam 1:00
-            rentang_waktu_reset = datetime.time(17, 59)  # Jam 1:59
+            rentang_waktu_mulai = datetime.time(0, 0)  # Jam 00:00
+            rentang_waktu_selesai = datetime.time(0, 59)  # Jam 00:59
+            rentang_waktu_reset = datetime.time(1, 0)  # Jam 1:00
+            rentang_waktu_reset = datetime.time(1, 59)  # Jam 1:59
 
             restart_status = RestartStatus.objects.latest('status')
 
@@ -190,7 +178,7 @@ def check_device_availability():
 
                 report_to_telegram(f"Summary Midnight Reboot AP FEB\nTime: {waktu_sekarang}\nTotal AP: {total_ap}\nBerhasil Reboot : {ap_berhasil}\nGagal Reboot : {ap_gagal}\nList AP yang gagal reboot : \n{list_ap_gagal}")
 
-                summary_restart = SummaryRestart(summary = f"Summary Midnight Reboot AP FEB\nTime: {waktu_sekarang}\nTotal AP: {total_ap}\nBerhasil Reboot : {ap_berhasil}\nGagal Reboot : {ap_gagal}\nList AP yang gagal reboot : \n{list_ap_gagal}" )
+                summary_restart = SummaryRestart(summary = f"Summary Midnight Reboot AP FEB, Time: {waktu_sekarang}, Total AP: {total_ap}, Berhasil Reboot : {ap_berhasil}, Gagal Reboot : {ap_gagal}, List AP yang gagal reboot : , {list_ap_gagal}" )
                 summary_restart.save()
                 
                 # Reset all count
