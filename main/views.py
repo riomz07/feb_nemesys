@@ -182,6 +182,7 @@ def delete_network_device(request):
 
 @login_required(login_url='login')
 def netmaps_data(request):
+    
     list_device = models.NetworkDevice.objects.all()
     json_device=[]
     for device in list_device:
@@ -191,8 +192,7 @@ def netmaps_data(request):
         netmaps_logic = NetMapsLogic(device_ip)
         device_status = netmaps_logic.check_response()
         device_latency = netmaps_logic.check_latency()
-        icon = f"{device.type}_{device_status}"
-        print(icon)
+        icon = f"{device.type}-{device_status}.png"
         
         json_device.append({
             'device_name':device_name,

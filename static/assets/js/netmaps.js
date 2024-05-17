@@ -43,6 +43,7 @@ let map;
 async function initMap() {
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps"); 
+  const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
 
   map = new Map(document.getElementById("map"), {
     mapId: "68406db2711b3df8",
@@ -57,9 +58,8 @@ async function initMap() {
     url:'get_netmaps_data',
     success: function(response){
       console.log('Success Get Data Netmaps')
-      console.log(response)
 
-      data = response
+      data = response 
 
       const iconBase = "https://nemesys.feb.unej.ac.id/static/assets/img/";
       const icons = {
@@ -85,6 +85,9 @@ async function initMap() {
 
       
       for(let i=0;i<data.devices.length;i++){
+        
+        console.log(String(iconBase+data.devices[i].icon))
+
         markers.push([
 
           '<div id="content">' +
@@ -100,7 +103,7 @@ async function initMap() {
 
           data.devices[i].long,
 
-          icons[String(data.devices[i].icon)].icon,
+          String(iconBase+data.devices[i].icon),
 
           25,
 
@@ -128,7 +131,7 @@ async function initMap() {
         statusTag.className = "test";
 
 
-          const marker = new google.maps.Marker({
+          const marker = new AdvancedMarkerElement({
             position: {lat: currentMarker[1], lng: currentMarker[2]},
             map,
             icon: currentMarker[3],

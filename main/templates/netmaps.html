@@ -24,6 +24,8 @@
 
     <div class="pagetitle">
       <h1>Network Monitoring Maps</h1>
+      <img src="{% static 'assets/img/AP-on.png' %}" alt="" >
+      <img src="{% static 'assets/img/AP-off.png' %}" alt="">
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -40,6 +42,7 @@
           <input type="hidden" id="wifi-on" value="{% static 'assets/img/wifi-on.svg' %}">
           <input type="hidden" id="router-off" value="{% static 'assets/img/router-off.svg' %}">
           <input type="hidden" id="wifi-off" value="{% static 'assets/img/wifi-off.svg' %}">
+          
 
           <div class="col-12">
             <button class="btn btn-warning mb-2 mt-2 w-100" style="font-weight: 700;" id="btn-mute"
@@ -56,11 +59,194 @@
 
   </main><!-- End #main -->
 
-  <footer>
+  
+<script>
+let unej_logo;
+let router_on;
+let wifi_on;
+let router_off;
+let wifi_off;
+let warning_status = false
+let mute = false
+let url_audio;
 
-    <script src="{% static '/assets/js/netmaps.js' %}"></script>
-  </footer>
+//Fungsi display list device
+function display_devices(data){
+  let devices = ''
+  for(let i=0;i<data.devices.length;i++){
+    devices += `<p> ${data.devices[i].device_name}(${data.devices[i].device_ip}) : <b>${data.devices[i].device_status}</b> </p>` 
+  } 
+  return devices
+}
 
+
+//Get Location URL
+$(function(){
+    unej_logo = $('#unej-logo').val()  
+    url_audio = $('#warning').val()
+
+    $('#btn-mute').on('click', function(){
+      mute = true
+      $('#btn-unmute').attr('hidden',false)
+      $(this).attr('hidden',true)
+    })
+
+    $('#btn-unmute').on('click', function(){
+      mute = false
+      $('#btn-mute').attr('hidden',false)
+      $(this).attr('hidden',true)
+    })
+
+ 
+})
+
+let map;
+
+async function initMap() {
+  //@ts-ignore
+  const { Map } = await google.maps.importLibrary("maps"); 
+  const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+  map = new Map(document.getElementById("map"), {
+    mapId: "68406db2711b3df8",
+    center: { lat: -8.168684, lng: 113.715874 },
+    zoom: 19,
+  });
+
+
+  //Get NetMaps Data Nodes
+  $.ajax({
+    type:'GET',
+    url:'get_netmaps_data',
+    success: function(response){
+      console.log('Success Get Data Netmaps')
+
+      data = response 
+
+      const iconBase = "https://nemesys.feb.unej.ac.id/static/assets/img/";
+      const icons = {
+        AP_on: {
+          icon: iconBase + "AP-on.png",
+        },
+        AP_off: {
+          icon: iconBase + "AP-off.png",
+        },
+      };
+
+      let markers =[
+            [
+          "Universitas Jember",
+          -8.164743199040513,
+          113.71527408052923,
+          unej_logo,
+          40,
+          40,
+          "Universitas Jember"
+        ],
+      ]
+
+      
+      for(let i=0;i<data.devices.length;i++){
+        
+        console.log(String(iconBase+data.devices[i].icon))
+
+        markers.push([
+
+          '<div id="content">' +
+          `<div id="siteNotice">${data.devices[i].device_name}` +
+          "</div>" +
+          `<h1 id="firstHeading" class="firstHeading">${data.devices[i].type}</h1>` +
+          '<div id="bodyContent">' +
+          ``+
+          "</div>" +
+          "</div>",
+
+          data.devices[i].lat,
+
+          data.devices[i].long,
+
+          String(iconBase+data.devices[i].icon),
+
+          25,
+
+          25,
+
+          data.devices[i].device_name,
+
+        ])
+
+        if(data.devices[i].device_status=='off'){
+          console.log('Warning Status to True')
+          warning_status=true
+        }
+        
+      }
+
+      for(let i = 0; i<markers.length; i++){
+        
+        const currentMarker = markers[i];    
+        const statusTag = document.createElement("div");
+
+        const beachFlagImg = document.createElement("img");
+
+        beachFlagImg.src = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+        statusTag.className = "test";
+
+
+          const marker = new google.maps.Marker({
+            position: {lat: currentMarker[1], lng: currentMarker[2]},
+            map,
+            icon: currentMarker[3],
+            title: currentMarker[7],
+          });
+
+          const infowindow = new google.maps.InfoWindow({
+            content: currentMarker[0]
+          });
+
+          marker.addListener("click", () => {
+            infowindow.open({
+              anchor: marker,
+              map,
+            });
+          });
+
+      }
+
+    },
+    error: function(response){
+      console.log('ERROR')
+      console.log(response)
+    }
+  })
+}
+
+
+function play_warning(){
+  $(function(){
+    let warning = new Audio($('#warning').val());
+    if (!mute){
+      if (warning_status){
+        warning.play()
+        console.log('Warning = True') 
+    }else{
+      console.log('Warning = False') 
+    }
+    }else{
+      console.log('Mute = True') 
+    }
+  })
+}
+
+initMap()
+play_warning()  
+
+setInterval(() => {
+initMap()
+play_warning()
+}, 60000);
+
+</script>
 
 
   {% include 'pages/footer.html' %}
