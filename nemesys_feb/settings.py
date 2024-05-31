@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'feb_nemesys',
         'HOST': '10.10.10.61',
         'USER': 'nemesys',
-        'PASSWORD': 'Sansok123',
+        'PASSWORD': '',
         'PORT': '5432',
    }
 }

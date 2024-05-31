@@ -1,4 +1,3 @@
-
 import threading, time, django, os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','nemesys_feb.settings')
 django.setup()

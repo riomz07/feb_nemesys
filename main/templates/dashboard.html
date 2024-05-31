@@ -6,7 +6,7 @@
 <head>
   <script>
 
-    var myTimeout = setTimeout(requestUlangSumberDaya, 10000);
+    // var myTimeout = setTimeout(requestUlangSumberDaya, 10000);
     
     
     function requestUlangSumberDaya() {
@@ -89,14 +89,14 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Total Devices</h5>
+                                  <h5 class="modal-title text-dark" id="exampleModalLongTitle">Total Devices</h5>
                                   <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
                                 <div class="modal-body" style="color: #;">
                                   {%for device in all_devices%}
-                                  <p style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">{{device.name}}</p>
+                                  <p style="font-size: 20px; font-weight: 700; margin-bottom: 10px; color: rgb(66, 66, 66);">{{device.name}}</p>
                                   {%endfor%}
                                 </div>
                               </div>
